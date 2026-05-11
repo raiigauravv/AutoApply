@@ -1,0 +1,91 @@
+{
+  "company": "BMO",
+  "role": "AI/ML Engineer",
+  "archetype": "MLEngineer",
+  "score": "4.2",
+  "grade": "B+",
+  "grade_letter": "b",
+  "cv_match_pct": 78,
+  "skill_coverage_pct": 82,
+  "apply_recommendation": "Yes",
+  "apply_reason": "Strong technical skills and projects outweigh formal experience gap.",
+  "summary": "Gaurav possesses exceptional technical skills in modern AI/ML, LLMs, and MLOps, demonstrated through an impressive project portfolio. While formal experience is slightly below the stated range, his practical applications are highly relevant and advanced.",
+  "cv_match_notes": "Excellent proficiency in Python, industry-standard AI/ML frameworks (PyTorch, TensorFlow, HuggingFace), MLOps (MLflow, W&B, Docker, CI/CD), and cloud basics. Strong data pipeline experience (Kafka, Spark Streaming). Projects like 'Real-Time Fraud Monitoring' and 'Healthcare AI Assistant' directly address JD requirements for predictions from historical data and unstructured data processing. Open-source contributions highlight practical skills.",
+  "gaps": "Formal full-time ML Engineer experience is below the typical 2-4 years. Candidate's target company stage is 'startup' which differs from BMO's enterprise environment. No explicit mention of banking-specific 'Risk Management Framework' experience.",
+  "strategy": "Highlight relevant projects and open-source contributions to demonstrate practical experience and advanced capabilities beyond formal job titles.",
+  "comp_range": "$67,200.00 - $124,200.00",
+  "keywords": [
+    "Python",
+    "AI/ML frameworks",
+    "cloud",
+    "data pipelines",
+    "deep learning",
+    "machine learning",
+    "MLOps",
+    "CI/CD",
+    "algorithms",
+    "statistical analysis",
+    "unstructured data",
+    "real-time",
+    "fraud",
+    "LLM",
+    "RAG",
+    "Docker",
+    "Kafka",
+    "Spark"
+  ],
+  "interview_angles": [
+    "Elaborate on 'Real-Time Fraud Monitoring' and its applicability in a large banking context.",
+    "Discuss challenges of scaling ML models in production and preventing drift, using MLOps tools.",
+    "How do you approach extending existing ML frameworks or optimizing libraries, referencing open-source work?",
+    "Why are you interested in BMO, given your stated preference for startups?",
+    "Describe your experience with processing unstructured data, specifically text-to-speech or image tagging."
+  ],
+  "star_story_hooks": [
+    "Real-Time Fraud Monitoring: Situation (need for low-latency fraud detection), Task (build system), Action (Kafka, XGBoost, Docker), Result (<100ms latency).",
+    "NEXUS-AI: Situation (complex RAG system), Task (integrate LLMs, vector DB, full stack), Action (LangGraph, GPT-4, Pinecone, Next.js), Result (functional ML app).",
+    "AutoMLOps-Genie: Situation (slow prototyping), Task (automate MLOps), Action (GPT-4, AutoGluon, MLflow), Result (90% time reduction).",
+    "Open Source Contributions: Situation (identified need for W&B integration/unit test expansion), Task (contribute to adenhq/hive), Action (merged PRs), Result (improved project)."
+  ],
+  "dimensions": [
+    {
+      "label": "Technical fit",
+      "score": 9
+    },
+    {
+      "label": "Role level",
+      "score": 7
+    },
+    {
+      "label": "Company stage",
+      "score": 5
+    },
+    {
+      "label": "Work authorization",
+      "score": 10
+    },
+    {
+      "label": "Domain match",
+      "score": 8
+    },
+    {
+      "label": "Growth potential",
+      "score": 7
+    },
+    {
+      "label": "Stack overlap",
+      "score": 9
+    }
+  ],
+  "red_flags": [],
+  "green_flags": [
+    "Exceptional and highly relevant project portfolio showcasing advanced ML/AI skills.",
+    "Strong proficiency in Python and modern AI/LLM frameworks (GPT-4, LangChain, HuggingFace).",
+    "Demonstrated MLOps capabilities (MLflow, W&B, Docker, CI/CD).",
+    "Open-source contributions to a YC-backed company.",
+    "Work authorization (PGWP) and location (Toronto) align perfectly with hybrid role."
+  ],
+  "id": 1778328439211,
+  "evaluated_at": "2026-05-09T12:07:19.211Z",
+  "jd_snippet": "About the job\nMUST HAVE experience building and training models using industry standard AI/ML frameworks and cloud-based tech stack, MUST BE very proficient with Python. This role is offered only on H"
+}

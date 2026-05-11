@@ -1,0 +1,75 @@
+{
+  "company": "Financial Institution",
+  "role": "Sr Data Scientist - Financial Markets and Investment Sales",
+  "archetype": "MLEngineer",
+  "score": "3.8",
+  "grade": "B",
+  "grade_letter": "b",
+  "cv_match_pct": 70,
+  "skill_coverage_pct": 90,
+  "apply_recommendation": "Yes",
+  "apply_reason": "Strong technical skills and project experience align with core data science tasks.",
+  "summary": "Gaurav possesses exceptional technical skills in ML/AI, data engineering, and visualization, demonstrated through advanced projects. While his formal experience and domain knowledge in financial markets are limited, his rapid learning ability and strong technical foundation make him a promising candidate.",
+  "cv_match_notes": "Strong proficiency in Python, SQL, R, Power BI, and Tableau. Extensive experience with machine learning, deep learning, and AI algorithms (PyTorch, TensorFlow, XGBoost, BERT, GPT-4). Demonstrated ability to build predictive models, conduct large-scale data analysis, and implement real-time solutions through diverse projects. Experience with data pipelines (Kafka, Spark Streaming) and MLOps tools. Located in Toronto with valid work authorization.",
+  "gaps": "Limited formal full-time work experience for a 'Sr Data Scientist' role (currently a student on contract). Lack of explicit experience or knowledge in financial markets, investment industry, or banking, which is a major asset for this specialist role. MSc is still in progress (May 2025).",
+  "strategy": "Emphasize strong technical project work and rapid learning ability to compensate for limited domain experience and formal years.",
+  "comp_range": "$70.00-$80.00 per hour",
+  "keywords": [
+    "Machine Learning",
+    "Predictive Models",
+    "Financial Markets",
+    "Data Visualization",
+    "SQL"
+  ],
+  "interview_angles": [
+    "How would you approach learning a new complex domain like financial markets quickly for a project?",
+    "Describe a project where you had to simplify complex technical concepts for non-technical business stakeholders."
+  ],
+  "star_story_hooks": [
+    "Real-Time Fraud Monitoring: Kafka + XGBoost + SHAP + FastAPI + Docker, <100ms latency",
+    "NEXUS-AI: LangGraph + RAG + GPT-4 + DistilBERT, FastAPI, Pinecone, PostgreSQL, Redis, Docker, Next.js"
+  ],
+  "dimensions": [
+    {
+      "label": "Technical fit",
+      "score": 8
+    },
+    {
+      "label": "Role level",
+      "score": 5
+    },
+    {
+      "label": "Company stage",
+      "score": 8
+    },
+    {
+      "label": "Work authorization",
+      "score": 10
+    },
+    {
+      "label": "Domain match",
+      "score": 3
+    },
+    {
+      "label": "Growth potential",
+      "score": 8
+    },
+    {
+      "label": "Stack overlap",
+      "score": 9
+    }
+  ],
+  "red_flags": [
+    "Lack of specific financial domain experience for a specialist role.",
+    "Limited formal full-time experience for a 'Senior' position."
+  ],
+  "green_flags": [
+    "Exceptional technical depth in ML/AI, LLMs, and data engineering.",
+    "Strong portfolio of impactful, complex projects.",
+    "Proficiency in all required technical tools (Python, SQL, R, PowerBI, ML frameworks).",
+    "Valid work authorization and local to Toronto."
+  ],
+  "id": 1777329590494,
+  "evaluated_at": "2026-04-27T22:39:50.494Z",
+  "jd_snippet": "Sr Data Scientist - Financial Markets and Investment Sales with Data and Technology Skills.\n\nEducation/Certifications: CFA or advanced degree in relevant field preferred.\n\n12 Months Contract\n\nToronto,"
+}

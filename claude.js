@@ -1,0 +1,78 @@
+const https = require("https");
+
+async function callClaude(systemPrompt, userPrompt, maxTokens = 2000) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey)
+    throw new Error("GEMINI_API_KEY not set. Add it to your .env file.");
+  const model = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+  const body = JSON.stringify({
+    system_instruction: {
+      parts: [{ text: systemPrompt || "You are a helpful assistant." }],
+    },
+    contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+    generationConfig: {
+      maxOutputTokens: Math.max(maxTokens, 4000),
+      temperature: 0.3,
+    },
+  });
+  return new Promise((resolve, reject) => {
+    const urlObj = new URL(url);
+    const req = https.request(
+      {
+        hostname: urlObj.hostname,
+        path: urlObj.pathname + urlObj.search,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Length": Buffer.byteLength(body),
+        },
+      },
+      (res) => {
+        let data = "";
+        res.on("data", (chunk) => (data += chunk));
+        res.on("end", () => {
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.error) {
+              reject(new Error("Gemini error: " + parsed.error.message));
+              return;
+            }
+            const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!text) {
+              reject(new Error("No text in Gemini response"));
+              return;
+            }
+            resolve(text);
+          } catch (e) {
+            reject(new Error("Parse error: " + e.message));
+          }
+        });
+      },
+    );
+    req.on("error", reject);
+    req.write(body);
+    req.end();
+  });
+}
+
+function parseJSON(text) {
+  let cleaned = text
+    .replace(/```json\n?/g, "")
+    .replace(/```\n?/g, "")
+    .trim();
+  const objStart = cleaned.indexOf("{");
+  const arrStart = cleaned.indexOf("[");
+  if (objStart === -1 && arrStart === -1) throw new Error("No JSON found");
+  let start, end;
+  if (objStart === -1 || (arrStart !== -1 && arrStart < objStart)) {
+    start = arrStart;
+    end = cleaned.lastIndexOf("]");
+  } else {
+    start = objStart;
+    end = cleaned.lastIndexOf("}");
+  }
+  return JSON.parse(cleaned.substring(start, end + 1));
+}
+
+module.exports = { callClaude, parseJSON };

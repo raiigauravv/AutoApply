@@ -1,0 +1,84 @@
+{
+  "company": "Anthropic",
+  "role": "Senior ML Engineer",
+  "archetype": "MLEngineer",
+  "score": 7.8,
+  "grade": "B+",
+  "grade_letter": "b",
+  "cv_match_pct": 78,
+  "skill_coverage_pct": 85,
+  "apply_recommendation": "Yes",
+  "apply_reason": "Strong LLM/MLOps skills and relevant project experience align well.",
+  "summary": "Gaurav possesses strong LLM, MLOps, and Python skills, directly aligning with Anthropic's needs for training and deploying AI systems. While his formal experience is primarily intern and contract-based, his advanced projects demonstrate a high level of capability for this role.",
+  "cv_match_notes": "Gaurav has extensive experience with LLMs (LangGraph, RAG, GPT-4, DistilBERT, BERT4Rec, HuggingFace) and fine-tuning. His MLOps skills (MLflow, W&B, Docker, CI/CD) are strong and demonstrated in multiple projects. Python and PyTorch/TensorFlow proficiency is clear. Location and work authorization align perfectly.",
+  "gaps": "Formal 'Senior ML Engineer' experience (3+ years full-time ML engineering) is not explicitly demonstrated. Explicit experience with distributed *model training* at scale is not detailed. Candidate's target company stage is 'startup' while Anthropic is a larger, established AI company.",
+  "strategy": "Emphasize advanced project work and practical MLOps/LLM deployment experience to compensate for formal seniority.",
+  "comp_range": "Unknown",
+  "keywords": [
+    "ML Engineer",
+    "LLM",
+    "MLOps",
+    "PyTorch",
+    "Transformers",
+    "Fine-tuning",
+    "Python",
+    "Docker",
+    "MLflow",
+    "W&B",
+    "Distributed Training"
+  ],
+  "interview_angles": [
+    "Deep dive into NEXUS-AI or AutoMLOps-Genie: scale, challenges, impact.",
+    "Experience with distributed training paradigms for LLMs.",
+    "Transition from academic/project work to a senior industry role.",
+    "Specific contributions to open source (adenhq/hive).",
+    "How he approaches model quality and evaluation for LLMs."
+  ],
+  "star_story_hooks": [
+    "NEXUS-AI: Building a complex RAG system end-to-end.",
+    "AutoMLOps-Genie: Reducing prototype time significantly.",
+    "Real-Time Fraud Monitoring: Achieving low-latency deployment.",
+    "Smart News Recommender: Deploying a BERT-based system on Azure.",
+    "Open Source contributions: W&B MCP/GraphQL integration."
+  ],
+  "dimensions": [
+    {
+      "label": "Technical fit",
+      "score": 8
+    },
+    {
+      "label": "Role level",
+      "score": 7
+    },
+    {
+      "label": "Company stage",
+      "score": 8
+    },
+    {
+      "label": "Work authorization",
+      "score": 10
+    },
+    {
+      "label": "Domain match",
+      "score": 10
+    },
+    {
+      "label": "Growth potential",
+      "score": 7
+    },
+    {
+      "label": "Stack overlap",
+      "score": 9
+    }
+  ],
+  "red_flags": [],
+  "green_flags": [
+    "Strong project portfolio showcasing advanced LLM and MLOps capabilities.",
+    "Relevant open-source contributions to a YC-backed company.",
+    "Deep technical skills in LLMs, MLOps, and core ML frameworks.",
+    "Perfect location and work authorization match."
+  ],
+  "id": 1778323654108,
+  "evaluated_at": "2026-05-09T10:47:34.108Z",
+  "jd_snippet": "Senior ML Engineer at Anthropic\nWe're looking for a Senior ML Engineer to join our team. You'll work on training and fine-tuning large language models, building MLOps pipelines, and deploying AI syste"
+}

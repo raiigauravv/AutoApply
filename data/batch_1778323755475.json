@@ -1,0 +1,47 @@
+{
+  "batchId": 1778323755475,
+  "results": [
+    {
+      "id": "jd_0",
+      "company": "Scale AI",
+      "role": "ML Engineer",
+      "score": "4.8",
+      "grade": "A+",
+      "grade_letter": "a",
+      "cv_match_pct": 95,
+      "apply_recommendation": "Yes",
+      "apply_reason": "Perfect skill, company, and location match; strong LLM/PyTorch.",
+      "top_keywords": [
+        "Python",
+        "PyTorch",
+        "LLM",
+        "Scale AI",
+        "Toronto"
+      ],
+      "main_gap": "The JD is very brief, so no significant gaps are apparent based on the provided requirements.",
+      "archetype": "MLEngineer",
+      "status": "success"
+    },
+    {
+      "id": "jd_1",
+      "company": "Bank of Canada",
+      "role": "Data Analyst",
+      "score": "2.0",
+      "grade": "D",
+      "grade_letter": "d",
+      "cv_match_pct": 15,
+      "apply_recommendation": "No",
+      "apply_reason": "No ML/AI component, misaligned with career goals.",
+      "top_keywords": [
+        "SQL",
+        "Excel",
+        "PowerPoint"
+      ],
+      "main_gap": "The role explicitly states 'No ML required,' which is a deal-breaker for Gaurav's ML/AI-focused profile.",
+      "archetype": "Other",
+      "status": "success"
+    }
+  ],
+  "errors": [],
+  "timestamp": "2026-05-09T10:49:15.475Z"
+}

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AutoApply — The ultimate job search autopilot</title>
+<meta name="description" content="Open source AI-powered job search. Evaluate JDs, scan 45+ portals, generate tailored resumes, automate your entire pipeline.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: #0B0F19;
+  --bg-panel: rgba(17, 24, 39, 0.7);
+  --border-light: rgba(0, 240, 255, 0.15);
+  --border-glow: rgba(0, 240, 255, 0.5);
+  --cyan: #00F0FF;
+  --cyan-dim: rgba(0, 240, 255, 0.1);
+  --indigo: #6366F1;
+  --text-main: #FFFFFF;
+  --text-muted: #94A3B8;
+  --text-dim: #64748B;
+  --head: 'Outfit', sans-serif;
+  --body: 'Inter', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background: var(--bg);
+  color: var(--text-main);
+  font-family: var(--body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.1), transparent 25%);
+}
+
+/* NOISE & GRID TEXTURE */
+body::before{
+  content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-image: 
+    linear-gradient(var(--border-light) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  opacity: 0.3;
+}
+
+/* NAV */
+nav{
+  position:sticky; top:0; z-index:100;
+  background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-light);
+  padding: 0 40px; height: 64px;
+  display: flex; align-items: center; gap: 20px;
+}
+.nlogo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-main)}
+.nsq{
+  width:32px; height:32px; background: linear-gradient(135deg, var(--cyan), var(--indigo));
+  border-radius:8px; display:flex; align-items:center; justify-content:center;
+  font-family:var(--head); font-size:14px; font-weight:700; color:#fff;
+  box-shadow: 0 0 15px var(--cyan-dim);
+}
+.ntxt{font-family:var(--head); font-size:18px; font-weight:600; letter-spacing: -0.02em;}
+.ntxt span{color:var(--cyan); font-weight:400;}
+.nright{margin-left:auto;display:flex;align-items:center;gap:24px}
+.nright a{font-size:14px; color:var(--text-muted); text-decoration:none; transition:color .2s; font-weight:500;}
+.nright a:hover{color:var(--text-main)}
+.nlaunch{
+  background: var(--text-main); color: var(--bg) !important;
+  padding: 8px 18px; border-radius: 8px; font-weight: 600 !important;
+  transition: all .2s !important;
+}
+.nlaunch:hover{
+  background: var(--cyan);
+  box-shadow: 0 0 20px var(--cyan-dim);
+  transform: translateY(-1px);
+}
+
+/* HERO */
+.hero{
+  max-width: 900px; margin: 80px auto 40px; padding: 0 24px;
+  text-align: center; position: relative; z-index: 1;
+}
+.hero-badge{
+  display:inline-flex; align-items:center; gap:8px; font-size:12px; font-family:var(--mono);
+  color:var(--cyan); margin-bottom:32px; background:var(--cyan-dim);
+  border:1px solid var(--border-light); border-radius:100px; padding:6px 16px;
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+h1{
+  font-family:var(--head); font-size:clamp(48px,8vw,80px); font-weight:700;
+  letter-spacing:-.03em; line-height:1.05; margin-bottom:24px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #A5B4FC 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-sub{
+  font-size:18px; color:var(--text-muted); max-width:600px; margin:0 auto 40px; line-height:1.7;
+}
+.ctas{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+.btn-primary{
+  background: linear-gradient(135deg, var(--cyan), var(--indigo));
+  color: #fff; padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 600;
+  text-decoration: none; transition: all .2s; display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.btn-primary:hover{
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); transform: translateY(-2px);
+}
+.btn-secondary{
+  background: rgba(255,255,255,0.05); border: 1px solid var(--border-light);
+  color: var(--text-main); padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 500;
+  text-decoration: none; transition: all .2s; backdrop-filter: blur(10px);
+}
+.btn-secondary:hover{
+  background: rgba(255,255,255,0.1); border-color: var(--cyan);
+}
+
+/* DASHBOARD PREVIEW IN HERO */
+.dash-preview {
+  max-width: 1000px; margin: 60px auto 100px; position: relative; z-index: 2; padding: 0 24px;
+}
+.dash-window {
+  background: rgba(11, 15, 25, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(99, 102, 241, 0.15);
+  overflow: hidden;
+}
+.dash-header {
+  background: rgba(255,255,255,0.03); padding: 12px 20px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex; gap: 8px; align-items: center;
+}
+.dash-dot { width: 12px; height: 12px; border-radius: 50%; background: #334155; }
+.dash-dot.r { background: #EF4444; } .dash-dot.y { background: #F59E0B; } .dash-dot.g { background: #10B981; }
+.dash-title { margin-left: 12px; font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+.dash-body {
+  padding: 24px; font-family: var(--mono); font-size: 13px; color: var(--text-muted); line-height: 1.8;
+  height: 300px; overflow-y: hidden; position: relative;
+}
+.dash-body::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+  background: linear-gradient(to top, rgba(11,15,25,1), transparent);
+}
+.log-line { display: flex; gap: 12px; margin-bottom: 8px; opacity: 0; animation: fadeUp 0.5s forwards; }
+.log-time { color: var(--text-dim); width: 70px; flex-shrink: 0; }
+.log-msg.highlight { color: var(--cyan); }
+.log-msg.success { color: #10B981; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* STATS */
+.stats-band{
+  border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);
+  background: rgba(255,255,255,0.02);
+}
+.stats-inner{
+  max-width: 900px; margin: 0 auto; padding: 60px 24px;
+  display: flex; justify-content: space-around; flex-wrap: wrap; gap: 32px;
+}
+.stat{text-align:center}
+.stat-n{font-family:var(--head); font-size:clamp(40px,6vw,64px); font-weight:700; color:var(--text-main);}
+.stat-l{font-size:13px; color:var(--text-dim); font-family:var(--mono); text-transform:uppercase; letter-spacing:0.1em; margin-top:8px;}
+
+/* FEATURES */
+section{position:relative;z-index:1; padding: 120px 24px;}
+.container{max-width: 1200px; margin: 0 auto;}
+.sec-label{font-size:12px; font-family:var(--mono); color:var(--cyan); text-transform:uppercase; letter-spacing:.15em; margin-bottom:16px;}
+.sec-h{font-family:var(--head); font-size:clamp(36px,5vw,56px); font-weight:600; letter-spacing:-.02em; color:var(--text-main); margin-bottom:60px; line-height:1.1; max-width: 600px;}
+.sec-h span { color: var(--cyan); }
+
+.feat-grid{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;
+}
+.feat{
+  background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 16px;
+  padding: 32px; transition: all 0.3s ease; backdrop-filter: blur(10px);
+}
+.feat:hover{
+  border-color: var(--cyan); transform: translateY(-4px);
+  box-shadow: 0 10px 30px var(--cyan-dim);
+}
+.feat-icon{
+  width: 48px; height: 48px; background: rgba(255,255,255,0.05); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.feat h3{font-family:var(--head); font-size:20px; font-weight:600; color:var(--text-main); margin-bottom:12px;}
+.feat p{font-size:15px; color:var(--text-muted); line-height:1.6;}
+.feat-tag{
+  margin-top:20px; font-size:11px; font-family:var(--mono); color:var(--indigo);
+  background: rgba(99, 102, 241, 0.1); display: inline-block; padding: 4px 10px; border-radius: 6px;
+}
+
+/* HOW IT WORKS / PIPELINE */
+.pipeline-flow {
+  display: flex; flex-direction: column; gap: 40px; position: relative;
+}
+.pipeline-flow::before {
+  content: ''; position: absolute; left: 40px; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(to bottom, var(--cyan), var(--indigo), transparent);
+  opacity: 0.3;
+}
+.pipe-step {
+  display: flex; gap: 40px; align-items: flex-start;
+}
+.pipe-num {
+  width: 80px; height: 80px; background: var(--bg); border: 2px solid var(--cyan);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: var(--head); font-size: 28px; font-weight: 700; color: var(--cyan);
+  flex-shrink: 0; position: relative; z-index: 2;
+  box-shadow: 0 0 20px var(--cyan-dim);
+}
+.pipe-content {
+  background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 16px;
+  padding: 32px; flex: 1; backdrop-filter: blur(10px);
+}
+.pipe-content h3 { font-family: var(--head); font-size: 24px; margin-bottom: 12px; }
+.pipe-content p { color: var(--text-muted); font-size: 16px; line-height: 1.6; }
+
+/* CALLOUT */
+.callout{
+  background: linear-gradient(135deg, rgba(11,15,25,1), rgba(99,102,241,0.1));
+  border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);
+  padding: 100px 24px; text-align: center;
+}
+.callout-inner{max-width:800px;margin:0 auto}
+.callout h2{font-family:var(--head); font-size:clamp(32px,5vw,56px); font-weight:700; margin-bottom:24px; line-height:1.1;}
+.callout p{font-size:18px; color:var(--text-muted); margin-bottom:40px; max-width: 600px; margin-left: auto; margin-right: auto;}
+
+/* FOOTER */
+footer{
+  background: #05080F; border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 40px; display: flex; align-items: center; flex-wrap: wrap; gap: 24px;
+}
+.foot-links{margin-left:auto;display:flex;gap:32px}
+.foot-links a{font-size:14px; color:var(--text-dim); text-decoration:none; transition:color .2s}
+.foot-links a:hover{color:var(--text-main)}
+.foot-copy{font-size:12px; color:var(--text-dim); font-family:var(--mono); width:100%; margin-top: 16px;}
+
+/* ANIMATIONS */
+.fi{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fi.in{opacity:1;transform:none}
+
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  .nright a:not(.nlaunch){display:none}
+  .hero{margin-top: 40px;}
+  .pipe-step{gap: 20px; flex-direction: column;}
+  .pipeline-flow::before{left: 24px;}
+  .pipe-num{width: 48px; height: 48px; font-size: 18px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nlogo"><span class="nsq">AA</span><span class="ntxt">Auto<span>Apply</span></span></a>
+  <div class="nright">
+    <a href="#features">Features</a>
+    <a href="#pipeline">How it works</a>
+    <a href="https://github.com/santifer/autoapply" target="_blank">GitHub ↗</a>
+    <a href="/app" class="nlaunch">Launch App</a>
+  </div>
+</nav>
+
+<div class="hero fi">
+  <div class="hero-badge">Open Source Job Search Command Center</div>
+  <h1>Apply to your dream roles<br>while you <span>sleep.</span></h1>
+  <p class="hero-sub">Stop filling out ATS forms and tailoring resumes manually. AutoApply evaluates JDs, writes perfect cover letters, and manages your entire pipeline automatically.</p>
+  <div class="ctas">
+    <a href="/app" class="btn-primary">Launch Command Center</a>
+    <a href="https://github.com/santifer/autoapply" target="_blank" class="btn-secondary">View Source Code</a>
+  </div>
+</div>
+
+<div class="dash-preview fi">
+  <div class="dash-window">
+    <div class="dash-header">
+      <span class="dash-dot r"></span><span class="dash-dot y"></span><span class="dash-dot g"></span>
+      <span class="dash-title">autoapply-worker-01</span>
+    </div>
+    <div class="dash-body" id="dash-body">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</div>
+
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-n" data-target="45">0</div><div class="stat-l">ATS Integrations</div></div>
+    <div class="stat"><div class="stat-n" data-target="14">0</div><div class="stat-l">AI Models Supported</div></div>
+    <div class="stat"><div class="stat-n" data-target="10">0</div><div class="stat-l">Scoring Dimensions</div></div>
+    <div class="stat"><div class="stat-n" data-target="100">0</div><div class="stat-l">% Local & Private</div></div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="container">
+    <div class="sec-label">The Arsenal</div>
+    <h2 class="sec-h">Everything you need to beat the ATS. <span>In one window.</span></h2>
+    <div class="feat-grid">
+      <div class="feat fi"><div class="feat-icon">⚡</div><h3>JD Evaluation</h3><p>Paste any job description. Get an A–F grade, 10-dimension score, skill coverage %, green/red flags, and a go/no-go recommendation in seconds.</p><div class="feat-tag">A–F · 10 dimensions</div></div>
+      <div class="feat fi"><div class="feat-icon">🔍</div><h3>Portal Scanner</h3><p>Scrapes Greenhouse, Lever, Ashby, and 40+ more portals. Filters by ML/AI relevance and scores every result automatically.</p><div class="feat-tag">45+ portals · dedup</div></div>
+      <div class="feat fi"><div class="feat-icon">📄</div><h3>Dynamic LaTeX CVs</h3><p>AI curates your strongest bullets for each JD and compiles a beautiful, ATS-optimized LaTeX PDF instantly — or exports to Overleaf.</p><div class="feat-tag">LaTeX · ATS-safe</div></div>
+      <div class="feat fi"><div class="feat-icon">🤖</div><h3>Apply Mode</h3><p>Detects the ATS type, extracts every form field, and generates tailored answers + cover letter — ready to paste. Greenhouse, Lever, Workday, Ashby.</p><div class="feat-tag">Pre-fill answers</div></div>
+      <div class="feat fi"><div class="feat-icon">📊</div><h3>Rejection Analysis</h3><p>The AI analyzes your pipeline history, identifies why you aren't passing resume screens, and suggests pivots in your job targeting.</p><div class="feat-tag">Pattern recognition</div></div>
+      <div class="feat fi"><div class="feat-icon">✉️</div><h3>Smart Cadence</h3><p>Calculates exact business-day follow-ups for ghosted applications and generates the perfect check-in email to bump the recruiter.</p><div class="feat-tag">SLA tracking · Outbound</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="pipeline">
+  <div class="container" style="max-width: 900px;">
+    <div class="sec-label">The Workflow</div>
+    <h2 class="sec-h">Four steps.<br><span>Zero spreadsheets.</span></h2>
+    <div class="pipeline-flow">
+      <div class="pipe-step fi">
+        <div class="pipe-num">01</div>
+        <div class="pipe-content">
+          <h3>Configure your profile</h3>
+          <p>Set your target roles, locations, work authorization, salary target, and scoring weights. Paste your master CV. Takes 2 minutes. The AI learns from your feedback over time.</p>
+        </div>
+      </div>
+      <div class="pipe-step fi">
+        <div class="pipe-num">02</div>
+        <div class="pipe-content">
+          <h3>Set the scanner</h3>
+          <p>Run the portal scanner to collect jobs from 45+ companies. AutoApply grades each one against your CV and returns a ranked list. Set a schedule and it runs while you sleep.</p>
+        </div>
+      </div>
+      <div class="pipe-step fi">
+        <div class="pipe-num">03</div>
+        <div class="pipe-content">
+          <h3>Apply on autopilot</h3>
+          <p>For roles scoring B+ or higher: generate a tailored PDF resume, fill the ATS form, write cold outreach, and prep STAR stories — all in one window. No copy-pasting between tabs.</p>
+        </div>
+      </div>
+      <div class="pipe-step fi">
+        <div class="pipe-num">04</div>
+        <div class="pipe-content">
+          <h3>Track & adapt</h3>
+          <p>The tracker follows every role from applied → interview → offer. The pattern analyzer identifies weak spots in your funnel and adjusts your personal scoring model automatically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="callout fi">
+  <div class="callout-inner">
+    <h2>Ready to filter offers, instead of getting filtered?</h2>
+    <p>No sign-up required. Runs entirely on your machine, protecting your data. Bring your own Anthropic or OpenAI key.</p>
+    <div class="ctas">
+      <a href="/app" class="btn-primary" style="padding: 18px 40px; font-size: 18px;">Start AutoApplying</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="/" class="nlogo"><span class="nsq" style="width:24px;height:24px;font-size:10px;">AA</span><span class="ntxt" style="font-size:14px;">Auto<span>Apply</span></span></a>
+  <div class="foot-links">
+    <a href="/app">WebUI</a>
+    <a href="https://github.com/santifer/autoapply" target="_blank">Source Code</a>
+    <a href="https://discord.gg/8pRpHETxa4" target="_blank">Community</a>
+  </div>
+  <div class="foot-copy">Built on santifer/autoapply · MIT License · 2026</div>
+</footer>
+
+<script>
+// Scroll animations
+const obs=new IntersectionObserver(e=>e.forEach(x=>{
+  if(x.isIntersecting){
+    x.target.classList.add('in');
+    if(x.target.dataset.target){
+      let c=0,t=parseInt(x.target.dataset.target),s=Math.max(1,Math.ceil(t/40));
+      const iv=setInterval(()=>{
+        c=Math.min(c+s,t);
+        x.target.textContent=c+(t>=100?'+':'+');
+        if(c>=t)clearInterval(iv);
+      },30);
+    }
+  }
+}),{threshold:.15});
+document.querySelectorAll('.fi,[data-target]').forEach(el=>obs.observe(el));
+
+// Terminal animation
+const dashBody = document.getElementById('dash-body');
+const logs = [
+  { time: '14:02:01', msg: 'Started recurring scan for 45+ ATS portals...', type: 'info' },
+  { time: '14:02:03', msg: 'Found 12 new roles matching archetype "ML Engineer".', type: 'highlight' },
+  { time: '14:02:05', msg: 'Evaluating JD: Senior ML Engineer at Anthropic...', type: 'info' },
+  { time: '14:02:08', msg: 'Score: 9.1/10 (A+). Legitimacy: Tier 1 (High).', type: 'success' },
+  { time: '14:02:09', msg: 'Compiling tailored LaTeX resume for JD match...', type: 'info' },
+  { time: '14:02:11', msg: 'Pre-filling Lever application form fields...', type: 'info' },
+  { time: '14:02:12', msg: 'Generating Follow-up Cadence schedule...', type: 'info' },
+  { time: '14:02:14', msg: 'Application package ready. Awaiting user review.', type: 'success' },
+];
+
+let logIndex = 0;
+function addLog() {
+  if (logIndex >= logs.length) {
+    setTimeout(() => {
+      dashBody.innerHTML = '';
+      logIndex = 0;
+      addLog();
+    }, 4000);
+    return;
+  }
+  
+  const log = logs[logIndex++];
+  const div = document.createElement('div');
+  div.className = 'log-line';
+  
+  const timeSpan = document.createElement('span');
+  timeSpan.className = 'log-time';
+  timeSpan.textContent = `[${log.time}]`;
+  
+  const msgSpan = document.createElement('span');
+  msgSpan.className = `log-msg ${log.type}`;
+  msgSpan.textContent = log.msg;
+  
+  div.appendChild(timeSpan);
+  div.appendChild(msgSpan);
+  dashBody.appendChild(div);
+  
+  dashBody.scrollTop = dashBody.scrollHeight;
+  
+  setTimeout(addLog, 800 + Math.random() * 1000);
+}
+
+setTimeout(addLog, 1000);
+
+// Nav scroll effect
+window.addEventListener('scroll',()=>{
+  const nav = document.querySelector('nav');
+  if(window.scrollY > 20) {
+    nav.style.background = 'rgba(11, 15, 25, 0.95)';
+    nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.5)';
+  } else {
+    nav.style.background = 'rgba(11, 15, 25, 0.85)';
+    nav.style.boxShadow = 'none';
+  }
+});
+</script>
+</body>
+</html>

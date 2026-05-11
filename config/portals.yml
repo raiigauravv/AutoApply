@@ -1,0 +1,162 @@
+categories:
+  ai_labs:
+    label: AI Labs
+    portals:
+      - name: Anthropic
+        slug: anthropic
+        type: greenhouse
+      - name: Cohere
+        slug: cohere
+        type: greenhouse
+      - name: Mistral AI
+        slug: mistral-ai
+        type: greenhouse
+      - name: LangChain
+        slug: langchain-ai
+        type: greenhouse
+      - name: Pinecone
+        slug: pinecone
+        type: greenhouse
+      - name: Hugging Face
+        slug: huggingface
+        type: greenhouse
+      - name: Perplexity AI
+        slug: perplexity-ai
+        type: greenhouse
+      - name: Together AI
+        slug: togetherai
+        type: greenhouse
+      - name: OpenAI
+        slug: openai
+        type: greenhouse
+  llmops:
+    label: LLMOps & Infra
+    portals:
+      - name: Weights & Biases
+        slug: wandb
+        type: greenhouse
+      - name: Arize AI
+        slug: arizeai
+        type: lever
+      - name: Scale AI
+        slug: scaleai
+        type: greenhouse
+      - name: Labelbox
+        slug: labelbox
+        type: greenhouse
+      - name: DataRobot
+        slug: datarobot
+        type: greenhouse
+      - name: Verta
+        slug: verta
+        type: lever
+  ai_platforms:
+    label: AI Platforms
+    portals:
+      - name: Retool
+        slug: retool
+        type: greenhouse
+      - name: Vercel
+        slug: vercel
+        type: greenhouse
+      - name: Glean
+        slug: glean
+        type: greenhouse
+      - name: Replit
+        slug: replit
+        type: greenhouse
+      - name: Cursor
+        slug: anysphere
+        type: greenhouse
+      - name: Runway
+        slug: runwayml
+        type: lever
+      - name: ElevenLabs
+        slug: elevenlabs
+        type: lever
+  toronto_focused:
+    label: Toronto / Canada
+    portals:
+      - name: Ada Support
+        slug: ada
+        type: greenhouse
+      - name: Wealthsimple
+        slug: wealthsimple
+        type: greenhouse
+      - name: Faire
+        slug: faire
+        type: greenhouse
+      - name: Later
+        slug: later
+        type: greenhouse
+      - name: Properly
+        slug: properly
+        type: lever
+      - name: Clearco
+        slug: clearco
+        type: lever
+  automation:
+    label: Automation
+    portals:
+      - name: Zapier
+        slug: zapier
+        type: greenhouse
+      - name: Make
+        slug: make
+        type: greenhouse
+  enterprise_ai:
+    label: Enterprise AI
+    portals:
+      - name: Gong
+        slug: gong
+        type: greenhouse
+      - name: Dialpad
+        slug: dialpad
+        type: greenhouse
+      - name: Salesforce
+        slug: salesforce
+        type: workday
+        workdayId: salesforce
+      - name: Snowflake
+        slug: snowflake
+        type: workday
+        workdayId: snowflake
+      - name: Databricks
+        slug: databricks
+        type: greenhouse
+  workday_cos:
+    label: Workday Companies
+    portals:
+      - name: NVIDIA
+        slug: nvidia
+        type: workday
+        workdayId: nvidia
+      - name: ServiceNow
+        slug: servicenow
+        type: workday
+        workdayId: servicenow
+      - name: Workiva
+        slug: workiva
+        type: workday
+        workdayId: workiva
+  dev_tools:
+    label: Dev Tools
+    portals:
+      - name: Sourcegraph
+        slug: sourcegraph
+        type: greenhouse
+      - name: Linear
+        slug: linear
+        type: ashby
+        ashbySlug: linear
+      - name: Raycast
+        slug: raycast
+        type: ashby
+        ashbySlug: raycast
+      - name: Zed Industries
+        slug: zed
+        type: ashby
+        ashbySlug: zed-industries
+      - name: Fig
+        slug: fig
+        type: greenhouse

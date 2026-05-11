@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoApply</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+  <!-- SIDEBAR -->
+  <div id="sb">
+    <div class="logo">
+      <div class="logo-mark">AA</div>
+      <div>
+        <div class="logo-title">AutoApply</div>
+        <div class="logo-ver">v3 · web edition</div>
+      </div>
+    </div>
+    <nav>
+      <div class="ns">Pipeline</div>
+      <div class="ni on" data-panel="evaluate">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M5 8l2 2 4-4"/></svg>
+        Evaluate JD
+      </div>
+      <div class="ni" data-panel="dashboard">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+        Dashboard
+      </div>
+      <div class="ni" data-panel="scanner">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4"/><path d="M11 11l2.5 2.5"/></svg>
+        Portal Scanner
+        <span class="nb" id="scan-badge">45+</span>
+      </div>
+      <div class="ni" data-panel="batch">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+        Batch Eval
+      </div>
+      <div class="ni" data-panel="tracker">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M5 6h6M5 9h4"/></svg>
+        Applications
+        <span class="nb" id="app-badge">0</span>
+      </div>
+      <div class="ni" data-panel="pipeline">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M2 8h12M8 2v12"/><circle cx="8" cy="8" r="2"/></svg>
+        Pipeline
+        <span class="nb" id="pipeline-badge">0</span>
+      </div>
+      <div class="ni" data-panel="scheduler">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+        Scheduler
+      </div>
+      <div class="ns">Tools</div>
+      <div class="ni" data-panel="interview">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M3 4h10M3 8h10M3 12h6"/></svg>
+        Interview Prep
+      </div>
+      <div class="ni" data-panel="outreach">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M2 4l6 4 6-4M2 4h12v9a1 1 0 01-1 1H3a1 1 0 01-1-1V4z"/></svg>
+        Cold Outreach
+      </div>
+      <div class="ni" data-panel="apply">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M2 12V4a1 1 0 011-1h10a1 1 0 011 1v8"/><path d="M5 7h6M5 10h4"/><path d="M11 13l2-1.5-2-1.5"/></svg>
+        Apply Mode
+        <span class="nb" style="background:rgba(200,255,87,.1);border-color:rgba(200,255,87,.25);color:var(--accent)">new</span>
+      </div>
+      <div class="ni" data-panel="research">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M8 5v6"/></svg>
+        Deep Research
+      </div>
+      <div class="ni" data-panel="modes">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M8 2l1.5 3 3.5.5-2.5 2.5.5 3.5L8 10l-3 1.5.5-3.5L3 5.5l3.5-.5z"/></svg>
+        All Modes
+      </div>
+      <div class="ni" data-panel="training">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M8 2l1.5 3 3.5.5-2.5 2.5.5 3.5L8 10l-3 1.5.5-3.5L3 5.5l3.5-.5z"/></svg>
+        Cert Eval
+      </div>
+      <div class="ni" data-panel="project">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M8 5v6"/></svg>
+        Project Eval
+      </div>
+      <div class="ni" data-panel="profile">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        Profile & CV
+      </div>
+      <div class="ni" data-panel="portals">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 2c0 0-3 2-3 6s3 6 3 6"/><path d="M8 2c0 0 3 2 3 6s-3 6-3 6"/><path d="M2 8h12"/></svg>
+        Manage Portals
+      </div>
+      <div class="ni" data-panel="liveness">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M8 2v3M8 11v3M2 8h3M11 8h3"/><circle cx="8" cy="8" r="3"/></svg>
+        Liveness Check
+        <span class="nb" id="liveness-badge" style="display:none;background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.3);color:#ff6b6b"></span>
+      </div>
+      <div class="ni" data-panel="followups">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+        Follow-ups
+        <span class="nb" id="followup-badge" style="display:none;background:rgba(245,166,35,.12);border-color:rgba(245,166,35,.3);color:#f5a623"></span>
+      </div>
+      <div class="ni" data-panel="patterns">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M2 12l3-4 3 2 3-6 3 4"/></svg>
+        Pattern Analysis
+      </div>
+      <div class="ni" data-panel="latexcv">
+        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
+        LaTeX / Overleaf CV
+      </div>
+    </nav>
+    <div class="sb-foot">
+      <strong>Gaurav Raii</strong> · ML Engineer<br>Toronto, ON · PGWP
+      <div class="api-status">
+        <div class="api-dot" id="api-dot"></div>
+        <span id="api-status-text">checking...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+    <div id="tb">
+      <span id="tb-title">Evaluate JD</span>
+      <span id="tb-sub">paste a job description to score it</span>
+      <div class="ml">
+        <button class="btn btn-sm" onclick="showStats()">Pipeline stats</button>
+        <button class="btn btn-g btn-sm" onclick="switchTo('evaluate')">+ New Eval</button>
+      </div>
+    </div>
+    <div id="content">
+
+      <!-- ═══ EVALUATE PANEL ═══ -->
+      <div id="panel-evaluate" class="panel on">
+        <div class="card">
+          <div class="ch">
+            <span class="ct">Job description or URL</span>
+            <div class="ch2">
+              <select class="sel" id="eval-mode">
+                <option value="full">Full Pipeline</option>
+                <option value="score">Score Only</option>
+                <option value="research">+ Deep Research</option>
+              </select>
+              <select class="sel" id="eval-lang">
+                <option value="">English</option>
+                <option value="German">German (DACH)</option>
+                <option value="French">French</option>
+                <option value="Japanese">Japanese</option>
+              </select>
+              <button class="btn btn-sm" id="btn-report" style="display:none" onclick="generateReport()">Full Report</button>
+            </div>
+          </div>
+          <textarea class="jdinput" id="jd-input" placeholder="Paste a job description or URL (Greenhouse · Lever · Ashby · LinkedIn · Workday · plain text)
+
+AutoApply will:
+  • Score fit across 10 dimensions (A–F grade)
+  • Surface gaps and match highlights  
+  • Recommend whether to apply
+  • Generate STAR interview hooks
+  • Produce a tailored resume strategy"></textarea>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+            <span class="hint">Supported: Greenhouse · Lever · Ashby · LinkedIn · Workday · plain text</span>
+            <button class="btn btn-g" onclick="runEval()">Evaluate →</button>
+          </div>
+        </div>
+
+        <div id="eval-loading" style="display:none">
+          <div class="card"><div class="loadwrap">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="loadmsg" id="load-msg">Reading job description...</div>
+          </div></div>
+        </div>
+
+        <div id="eval-result" style="display:none">
+          <div class="mrow">
+            <div class="mcard">
+              <div class="mlabel">fit score</div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div class="score-big" id="r-score">—</div>
+                <div class="grade" id="r-grade-badge" style="padding:4px 9px;font-size:17px">—</div>
+              </div>
+              <div class="msub" id="r-archetype">—</div>
+              <div class="msub" id="r-legitimacy" style="margin-top:6px;color:var(--amber)">—</div>
+            </div>
+            <div class="mcard">
+              <div class="mlabel">cv match</div>
+              <div class="mval" id="r-match">—</div>
+              <div class="pbar"><div class="pfill" id="r-match-bar" style="width:0%;background:var(--accent)"></div></div>
+            </div>
+            <div class="mcard">
+              <div class="mlabel">skill coverage</div>
+              <div class="mval" id="r-skills">—</div>
+              <div class="pbar"><div class="pfill" id="r-skills-bar" style="width:0%;background:var(--teal)"></div></div>
+            </div>
+            <div class="mcard">
+              <div class="mlabel">recommendation</div>
+              <div class="mval" id="r-rec" style="font-size:15px">—</div>
+              <div class="msub" id="r-rec-sub"></div>
+            </div>
+          </div>
+
+          <div class="egrid">
+            <div class="eblock">
+              <div class="elabel" id="r-role-lbl">Role</div>
+              <div class="ebody" id="r-summary"></div>
+              <div class="flag-row" id="r-green-flags"></div>
+            </div>
+            <div class="eblock">
+              <div class="elabel">10 dimension scores</div>
+              <div id="r-dims"></div>
+            </div>
+          </div>
+          <div class="egrid">
+            <div class="eblock">
+              <div class="elabel">CV match highlights</div>
+              <div class="ebody" id="r-match-notes"></div>
+            </div>
+            <div class="eblock">
+              <div class="elabel">Gaps to address</div>
+              <div class="ebody" id="r-gaps"></div>
+              <div class="flag-row" id="r-red-flags" style="margin-top:8px"></div>
+            </div>
+          </div>
+          <div class="eblock" style="margin-bottom:11px">
+            <div class="elabel">Strategy · <span id="r-comp" style="color:var(--amber)"></span></div>
+            <div class="ebody" id="r-strategy"></div>
+            <div class="tags" id="r-keywords"></div>
+          </div>
+          <div class="eblock" style="margin-bottom:11px">
+            <div class="elabel">Interview angles</div>
+            <div class="tags" id="r-interview-angles"></div>
+            <div style="margin-top:10px"><div class="elabel" style="margin-bottom:5px">STAR story hooks</div><div class="tags" id="r-star-hooks"></div></div>
+          </div>
+
+          <div class="arow">
+            <button class="btn btn-g btn-sm" onclick="addToTracker()">+ Add to tracker</button>
+            <button class="btn btn-t btn-sm" onclick="genPDF()">Generate tailored resume</button>
+            <button class="btn btn-sm" onclick="genOutreach()">Cold email ↗</button>
+            <button class="btn btn-sm" onclick="genStarStories()">STAR stories ↗</button>
+            <button class="btn btn-p btn-sm" onclick="generateReport()">Full report</button>
+            <button class="btn btn-sm" style="border-color:rgba(200,255,87,.3);color:var(--accent)" onclick="goApplyMode()">Apply mode ↗</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SCANNER PANEL ═══ -->
+      <div id="panel-scanner" class="panel">
+        <div class="card">
+          <div class="ch">
+            <div>
+              <div class="ct">Portal Scanner</div>
+              <div class="hint" style="margin-top:3px">Scrapes Greenhouse · Lever · Ashby · Wellfound · 45+ companies</div>
+            </div>
+            <button class="btn btn-g" onclick="runScan()" id="scan-btn">Scan now →</button>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer"><input type="checkbox" checked id="cat-ai_labs"> AI Labs</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer"><input type="checkbox" checked id="cat-llmops"> LLMOps</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer"><input type="checkbox" checked id="cat-ai_platforms"> AI Platforms</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer"><input type="checkbox" checked id="cat-toronto_focused"> Toronto</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer"><input type="checkbox" id="cat-automation"> Automation</label>
+          </div>
+        </div>
+        <div id="scan-loading" style="display:none">
+          <div class="card"><div class="loadwrap">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="loadmsg" id="scan-msg">Scanning portals...</div>
+          </div></div>
+        </div>
+        <div id="scan-results" style="display:none"></div>
+        <div id="scan-empty" class="card" style="text-align:center;padding:32px;color:var(--dim)">
+          <div style="font-size:28px;margin-bottom:8px">🔍</div>
+          <div style="font-size:13px">Hit "Scan now" to search 45+ company portals for ML/AI roles</div>
+        </div>
+      </div>
+
+      <!-- ═══ BATCH PANEL ═══ -->
+      <div id="panel-batch" class="panel">
+        <div class="card">
+          <div class="ch">
+            <div>
+              <div class="ct">Batch Evaluation</div>
+              <div class="hint" style="margin-top:3px">Evaluate up to 20 JDs in parallel — paste one per line or one per block</div>
+            </div>
+            <button class="btn btn-g" onclick="runBatch()">Run batch →</button>
+          </div>
+          <div style="margin-bottom:10px;font-size:12px;color:var(--dim)">Paste JDs below — separate each with <code style="background:var(--surface3);padding:1px 5px;border-radius:3px;font-family:var(--mono)">---</code></div>
+          <textarea class="jdinput" id="batch-input" style="min-height:180px" placeholder="Paste JD 1 here...
+---
+Paste JD 2 here...
+---
+Paste JD 3 here..."></textarea>
+        </div>
+        <div id="batch-loading" style="display:none">
+          <div class="card"><div class="loadwrap">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="loadmsg" id="batch-msg">Evaluating in parallel...</div>
+          </div></div>
+        </div>
+        <div id="batch-results" style="display:none">
+          <div class="card">
+            <div class="ch"><span class="ct" id="batch-title">Results</span></div>
+            <table>
+              <thead><tr><th>#</th><th>Company</th><th>Role</th><th>Grade</th><th>CV Match</th><th>Apply?</th><th>Top gap</th><th></th></tr></thead>
+              <tbody id="batch-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ TRACKER PANEL ═══ -->
+      <div id="panel-tracker" class="panel">
+        <div class="mrow">
+          <div class="mcard"><div class="mlabel">total tracked</div><div class="mval" id="t-total">0</div></div>
+          <div class="mcard"><div class="mlabel">in progress</div><div class="mval" id="t-progress" style="color:var(--amber)">0</div></div>
+          <div class="mcard"><div class="mlabel">interviews</div><div class="mval" id="t-interviews" style="color:var(--teal)">0</div></div>
+          <div class="mcard"><div class="mlabel">response rate</div><div class="mval" id="t-rate" style="color:var(--accent)">0%</div></div>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <span class="ct">Application pipeline</span>
+            <input class="inp" placeholder="Filter..." id="tracker-filter" style="width:140px;font-size:12px;padding:5px 8px" oninput="renderTracker()">
+          </div>
+          <table>
+            <thead><tr><th>Company</th><th>Role</th><th>Grade</th><th>Status</th><th>Added</th><th>Notes</th><th></th></tr></thead>
+            <tbody id="tracker-tbody"></tbody>
+          </table>
+          <div id="tracker-empty" style="text-align:center;padding:28px;color:var(--dim);font-size:13px;display:none">
+            No applications yet. Evaluate a JD and add it to the tracker.
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ INTERVIEW PANEL ═══ -->
+      <div id="panel-interview" class="panel">
+        <div class="card">
+          <div class="ch">
+            <span class="ct">STAR story bank</span>
+            <button class="btn btn-g btn-sm" onclick="generateStarBank()">Generate stories ↗</button>
+          </div>
+          <div id="story-bank">
+            <div class="story"><div class="story-q"><span class="star-chip">STAR</span>Tell me about reducing latency in an ML system.</div><div class="story-body">Real-Time Fraud Monitoring — Kafka + XGBoost pipeline, achieved <strong>&lt;100ms latency</strong> through SHAP-based feature selection and async scoring. Containerized via Docker + FastAPI.<br><strong>Reflection:</strong> profiling revealed the bottleneck was feature serialization, not the model. Counter-intuitive but critical.</div><div class="tags"><span class="tag">XGBoost</span><span class="tag">Kafka</span><span class="tag">&lt;100ms</span><span class="tag">MLOps</span></div></div>
+            <div class="story"><div class="story-q"><span class="star-chip">STAR</span>Describe a complex LLM system you designed end-to-end.</div><div class="story-body">NEXUS-AI — LangGraph + RAG + GPT-4 + DistilBERT, deployed with FastAPI, Pinecone, PostgreSQL, Redis, Docker, Next.js. Multi-agent orchestration with memory persistence.<br><strong>Reflection:</strong> chunking strategy + embedding model choice mattered more than LLM selection. RAG quality is the leverage point.</div><div class="tags"><span class="tag">LangGraph</span><span class="tag">RAG</span><span class="tag">GPT-4</span><span class="tag">Pinecone</span></div></div>
+            <div class="story"><div class="story-q"><span class="star-chip">STAR</span>Tell me about an open source contribution you're proud of.</div><div class="story-body">Two merged PRs to adenhq/hive (YC-backed): W&B MCP/GraphQL tracking integration + unit test expansion. Started through cold outreach to the founder — hiring interest followed.<br><strong>Reflection:</strong> open source PRs signal real craft. The YC connection opened a hiring conversation cold email alone never would.</div><div class="tags"><span class="tag">open source</span><span class="tag">W&B</span><span class="tag">MCP</span><span class="tag">GraphQL</span></div></div>
+            <div class="story"><div class="story-q"><span class="star-chip">STAR</span>How have you handled ML model accuracy below expectations?</div><div class="story-body">Multilingual NLI BERT — fine-tuned BERT + RoBERTa on 15-language dataset; initial accuracy was 81%, target was 90%+. Systematically tried data augmentation, loss function changes, and language-specific tokenization.<br><strong>Result:</strong> 93.4% Kaggle accuracy. <strong>Reflection:</strong> the biggest gain came from better data cleaning, not architecture changes.</div><div class="tags"><span class="tag">BERT</span><span class="tag">RoBERTa</span><span class="tag">fine-tuning</span><span class="tag">93.4%</span></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Negotiation toolkit</span></div>
+          <div class="g2">
+            <button class="btn" style="text-align:left;padding:10px 12px" onclick="genNegotiate('salary')">Salary negotiation script ↗</button>
+            <button class="btn" style="text-align:left;padding:10px 12px" onclick="genNegotiate('counter')">Counter-offer email ↗</button>
+            <button class="btn" style="text-align:left;padding:10px 12px" onclick="genNegotiate('screen')">HR screen comp answer ↗</button>
+            <button class="btn" style="text-align:left;padding:10px 12px" onclick="genNegotiate('leverage')">Competing offer leverage ↗</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Follow-up cadence</span></div>
+          <div class="g2">
+            <div>
+              <div class="hint" style="margin-bottom:7px">Company name</div>
+              <input class="inp" id="fu-company" placeholder="e.g. Deloitte" style="width:100%">
+            </div>
+            <div>
+              <div class="hint" style="margin-bottom:7px">Current status</div>
+              <select class="sel" id="fu-status" style="width:100%">
+                <option>applied</option><option>phone_screen</option><option>interview</option><option>ghosted</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:10px" onclick="genFollowup()">Generate follow-up plan ↗</button>
+        </div>
+      </div>
+
+      <!-- ═══ OUTREACH PANEL ═══ -->
+      <div id="panel-outreach" class="panel">
+        <div class="card">
+          <div class="ch"><span class="ct">Cold outreach generator</span></div>
+          <div class="g2" style="margin-bottom:12px">
+            <div><div class="hint" style="margin-bottom:6px">Company</div><input class="inp" id="out-company" placeholder="e.g. Scale AI" style="width:100%"></div>
+            <div><div class="hint" style="margin-bottom:6px">Role</div><input class="inp" id="out-role" placeholder="e.g. ML Engineer" style="width:100%"></div>
+            <div><div class="hint" style="margin-bottom:6px">Contact name (optional)</div><input class="inp" id="out-contact" placeholder="e.g. Jane Smith" style="width:100%"></div>
+            <div><div class="hint" style="margin-bottom:6px">Contact title (optional)</div><input class="inp" id="out-title" placeholder="e.g. Engineering Lead" style="width:100%"></div>
+          </div>
+          <div style="margin-bottom:10px"><div class="hint" style="margin-bottom:6px">JD snippet (optional)</div><textarea class="ta" id="out-jd" placeholder="Paste relevant parts of the JD..."></textarea></div>
+          <button class="btn btn-g" onclick="runOutreach()">Generate outreach →</button>
+        </div>
+        <div id="out-loading" style="display:none"><div class="card"><div class="loadwrap"><div class="dots"><span></span><span></span><span></span></div><div class="loadmsg">Writing outreach...</div></div></div></div>
+        <div id="out-result" style="display:none">
+          <div class="card">
+            <div class="ch"><span class="ct">Generated outreach</span><button class="btn btn-sm" onclick="copyOutreach()">Copy all</button></div>
+            <div id="out-content" style="font-size:13px;color:var(--muted);line-height:1.7;white-space:pre-wrap;font-family:var(--mono)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ RESEARCH PANEL ═══ -->
+      <div id="panel-research" class="panel">
+        <div class="card">
+          <div class="ch"><span class="ct">Company deep-dive</span></div>
+          <div class="g2" style="margin-bottom:12px">
+            <div><div class="hint" style="margin-bottom:6px">Company</div><input class="inp" id="res-company" placeholder="e.g. Anthropic" style="width:100%"></div>
+            <div><div class="hint" style="margin-bottom:6px">Role you're applying for</div><input class="inp" id="res-role" placeholder="e.g. ML Engineer" style="width:100%"></div>
+          </div>
+          <button class="btn btn-g" onclick="runResearch()">Research company →</button>
+        </div>
+        <div id="res-loading" style="display:none"><div class="card"><div class="loadwrap"><div class="dots"><span></span><span></span><span></span></div><div class="loadmsg" id="res-load-msg">Searching the web...</div></div></div></div>
+        <div id="res-result" style="display:none">
+          <div class="card">
+            <div class="ch"><span class="ct" id="res-title">Research</span><span id="res-live-badge" style="display:none;font-size:10px;font-family:var(--mono);color:var(--teal);background:rgba(0,229,204,.08);border:1px solid rgba(0,229,204,.2);border-radius:6px;padding:3px 8px;margin-left:8px"></span></div>
+            <div id="res-content" style="font-size:13px;color:var(--muted);line-height:1.75;white-space:pre-wrap"></div>
+            <div id="research-sources" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ MODES PANEL ═══ -->
+      <div id="panel-modes" class="panel">
+        <div class="card">
+          <div class="ch"><span class="ct">All skill modes</span><span class="hint">14 AI-powered pipelines</span></div>
+          <div class="mgrid">
+            <div class="modecard" onclick="switchTo('evaluate')"><span class="mcicon">⚡</span><div class="mcname">Full pipeline</div><div class="mcdesc">Score + tailor + STAR prep in one shot</div></div>
+            <div class="modecard" onclick="switchTo('evaluate')"><span class="mcicon">📊</span><div class="mcname">Score only</div><div class="mcdesc">Quick A–F fit, no PDF generation</div></div>
+            <div class="modecard" onclick="genPDF()"><span class="mcicon">📄</span><div class="mcname">Tailor resume</div><div class="mcdesc">ATS-optimized PDF per JD</div></div>
+            <div class="modecard" onclick="switchTo('scanner')"><span class="mcicon">🔍</span><div class="mcname">Portal scan</div><div class="mcdesc">Scan 45+ companies automatically</div></div>
+            <div class="modecard" onclick="switchTo('batch')"><span class="mcicon">⚙️</span><div class="mcname">Batch eval</div><div class="mcdesc">Evaluate 20 JDs in parallel</div></div>
+            <div class="modecard" onclick="switchTo('research')"><span class="mcicon">🏢</span><div class="mcname">Company deep-dive</div><div class="mcdesc">Funding · tech stack · culture</div></div>
+            <div class="modecard" onclick="switchTo('outreach')"><span class="mcicon">✉️</span><div class="mcname">Cold outreach</div><div class="mcdesc">Email + LinkedIn per role</div></div>
+            <div class="modecard" onclick="switchTo('interview')"><span class="mcicon">🎤</span><div class="mcname">Interview prep</div><div class="mcdesc">STAR bank + negotiation scripts</div></div>
+            <div class="modecard" onclick="genNegotiate('salary')"><span class="mcicon">💰</span><div class="mcname">Negotiation</div><div class="mcdesc">Salary scripts + counter-offers</div></div>
+            <div class="modecard" onclick="genFollowup()"><span class="mcicon">🔔</span><div class="mcname">Follow-up cadence</div><div class="mcdesc">When + what to send</div></div>
+            <div class="modecard" onclick="switchTo("project")"><span class="mcicon">🛠</span><div class="mcname">Project eval</div><div class="mcdesc">Worth building for portfolio?</div></div>
+            <div class="modecard" onclick="switchTo("training")"><span class="mcicon">🎓</span><div class="mcname">Cert eval</div><div class="mcdesc">Is this cert worth pursuing?</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PROFILE PANEL ═══ -->
+      <div id="panel-profile" class="panel">
+        <div class="card">
+          <div class="ch">
+            <span class="ct">CV (cv.md)</span>
+            <button class="btn btn-g btn-sm" onclick="saveCV()">Save CV</button>
+          </div>
+          <textarea class="ped" id="cv-editor" style="min-height:260px"></textarea>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <span class="ct">Profile (profile.yml)</span>
+            <button class="btn btn-g btn-sm" onclick="saveProfile()">Save Profile</button>
+          </div>
+          <textarea class="ped" id="profile-editor" style="min-height:180px"></textarea>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Scoring weights</span><span class="hint">how dimensions are weighted in A–F grade</span></div>
+          <div class="wrow"><span class="wlabel">Technical fit (stack match)</span><div class="wbar"><div class="wfill" style="width:90%"></div></div><span class="wnum">9</span></div>
+          <div class="wrow"><span class="wlabel">Role level fit</span><div class="wbar"><div class="wfill" style="width:80%"></div></div><span class="wnum">8</span></div>
+          <div class="wrow"><span class="wlabel">Company stage</span><div class="wbar"><div class="wfill" style="width:80%"></div></div><span class="wnum">8</span></div>
+          <div class="wrow"><span class="wlabel">Work authorization (PGWP)</span><div class="wbar"><div class="wfill" style="width:100%;background:var(--coral)"></div></div><span class="wnum" style="color:var(--coral)">10</span></div>
+          <div class="wrow"><span class="wlabel">Domain match</span><div class="wbar"><div class="wfill" style="width:80%"></div></div><span class="wnum">8</span></div>
+          <div class="wrow"><span class="wlabel">Location / remote</span><div class="wbar"><div class="wfill" style="width:70%"></div></div><span class="wnum">7</span></div>
+          <div class="wrow"><span class="wlabel">Comp range</span><div class="wbar"><div class="wfill" style="width:70%"></div></div><span class="wnum">7</span></div>
+          <div class="wrow"><span class="wlabel">Growth potential</span><div class="wbar"><div class="wfill" style="width:60%;background:var(--teal)"></div></div><span class="wnum" style="color:var(--teal)">6</span></div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Generated files</span></div>
+          <div id="outputs-list"><div class="hint">No files yet.</div></div>
+          <button class="btn btn-sm" style="margin-top:10px" onclick="loadOutputs()">Refresh</button>
+        </div>
+      </div>
+
+      <!-- ═══ APPLY PANEL ═══ -->
+      <div id="panel-apply" class="panel">
+
+        <!-- STEP 1: JOB INPUT -->
+        <div class="card" id="apply-step1">
+          <div class="ch">
+            <div>
+              <div class="ct">Apply Mode — Smart Pre-fill</div>
+              <div class="hint" style="margin-top:3px">Paste the application URL or JD · AutoApply generates every answer pre-filled from your CV</div>
+            </div>
+            <span style="font-size:11px;font-family:var(--mono);color:var(--dim);border:1px solid var(--border2);border-radius:4px;padding:3px 8px">Step 1 of 2</span>
+          </div>
+          <div style="margin-bottom:12px">
+            <div class="hint" style="margin-bottom:6px">Application URL (optional — helps detect ATS type)</div>
+            <input class="inp" id="apply-url" placeholder="https://boards.greenhouse.io/company/jobs/12345 or https://jobs.lever.co/..." style="width:100%">
+          </div>
+          <div style="margin-bottom:12px">
+            <div class="hint" style="margin-bottom:6px">Job description</div>
+            <textarea class="jdinput" id="apply-jd" style="min-height:100px" placeholder="Paste the full job description here — used to tailor your cover letter and answers"></textarea>
+          </div>
+          <div style="margin-bottom:12px">
+            <div class="hint" style="margin-bottom:6px">Custom / screening questions (one per line, optional)</div>
+            <textarea class="ta" id="apply-custom-q" placeholder="Why do you want to work here?&#10;Describe your experience with LLMs&#10;What is your expected salary?"></textarea>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn btn-g" onclick="runPrefill()">Generate all answers →</button>
+            <span class="hint" id="apply-ats-hint"></span>
+          </div>
+        </div>
+
+        <div id="apply-loading" style="display:none">
+          <div class="card"><div class="loadwrap">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="loadmsg" id="apply-load-msg">Reading form fields...</div>
+          </div></div>
+        </div>
+
+        <!-- STEP 2: ANSWERS -->
+        <div id="apply-result" style="display:none">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div>
+              <div style="font-family:var(--head);font-size:14px;font-weight:600" id="apply-role-title">Application Pre-fill</div>
+              <div style="font-size:11px;color:var(--dim);font-family:var(--mono);margin-top:2px" id="apply-ats-type"></div>
+            </div>
+            <div style="display:flex;gap:7px">
+              <button class="btn btn-sm" onclick="copyAllAnswers()">Copy all answers</button>
+              <button class="btn btn-g btn-sm" onclick="document.getElementById('apply-result').style.display='none';document.getElementById('apply-step1').style.display='block'">← New application</button>
+            </div>
+          </div>
+
+          <!-- TIPS -->
+          <div id="apply-tips" style="display:none">
+            <div class="eblock" style="margin-bottom:12px;border-color:rgba(200,255,87,.2)">
+              <div class="elabel" style="color:var(--accent)">Tips for this application</div>
+              <div id="apply-tips-content" class="ebody"></div>
+            </div>
+          </div>
+
+          <!-- FIELDS -->
+          <div id="apply-fields-container"></div>
+
+          <!-- COVER LETTER -->
+          <div class="card" id="apply-cover-card" style="display:none">
+            <div class="ch">
+              <span class="ct">Cover Letter</span>
+              <div style="display:flex;gap:6px">
+                <select class="sel" id="cl-tone" style="font-size:11px">
+                  <option value="confident">Confident</option>
+                  <option value="warm">Warm + confident</option>
+                  <option value="technical">Technical focus</option>
+                </select>
+                <button class="btn btn-sm" onclick="regenCoverLetter()">Regenerate</button>
+                <button class="btn btn-t btn-sm" onclick="copyCoverLetter()">Copy</button>
+              </div>
+            </div>
+            <textarea class="ta" id="apply-cover-letter" style="min-height:180px;line-height:1.7"></textarea>
+            <div style="font-size:10px;color:var(--dim);font-family:var(--mono);margin-top:5px" id="cl-wordcount"></div>
+          </div>
+
+          <!-- CUSTOM QUESTIONS -->
+          <div id="apply-custom-container" style="display:none">
+            <div class="card">
+              <div class="ch"><span class="ct">Custom & Screening Questions</span></div>
+              <div id="apply-custom-answers"></div>
+            </div>
+          </div>
+
+          <!-- CHECKLIST -->
+          <div class="card">
+            <div class="ch"><span class="ct">Application checklist</span></div>
+            <div id="apply-checklist">
+              <div class="drow"><span class="dlabel">✓ Pre-filled answers generated</span><span style="color:var(--teal);font-size:12px">Done</span></div>
+              <div class="drow" id="chk-cover"><span class="dlabel">Cover letter</span><span style="color:var(--dim);font-size:12px">Pending</span></div>
+              <div class="drow" id="chk-resume"><span class="dlabel">Tailored resume PDF</span><span><button class="btn btn-xs" onclick="genPDFFromApply()">Generate ↗</button></span></div>
+              <div class="drow" id="chk-tracker"><span class="dlabel">Add to application tracker</span><span><button class="btn btn-xs" onclick="addToTrackerFromApply()">Add ↗</button></span></div>
+              <div class="drow"><span class="dlabel">Review all answers before submitting</span><span style="color:var(--amber);font-size:12px">Your review needed</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ═══ DASHBOARD PANEL ═══ -->
+      <div id="panel-dashboard" class="panel"><div class="dash-hero"><div style="display:flex;align-items:flex-start;justify-content:space-between"><div><h1>Your career, operated.</h1><p>AutoApply tracks every job you've evaluated, every application in flight, and every portal worth watching — all from one window.</p></div><button class="btn btn-sm" onclick="loadDashboard()">Refresh ↺</button></div><div class="dash-stat-row"><div class="dash-stat"><div class="dash-stat-val" id="dh-scanned">—</div><div class="dash-stat-lbl">Jobs scanned</div></div><div class="dash-stat"><div class="dash-stat-val" id="dh-evaluated">—</div><div class="dash-stat-lbl">Evaluated</div></div><div class="dash-stat"><div class="dash-stat-val" id="dh-interviews">—</div><div class="dash-stat-lbl">Interviews</div></div></div></div>
+        <div class="mrow" id="dash-metrics">
+          <div class="mcard"><div class="mlabel">jobs scanned (all time)</div><div class="mval" id="d-scanned">—</div></div>
+          <div class="mcard"><div class="mlabel">new this week</div><div class="mval" id="d-new" style="color:var(--accent)">—</div></div>
+          <div class="mcard"><div class="mlabel">evaluated</div><div class="mval" id="d-evaluated" style="color:var(--teal)">—</div></div>
+          <div class="mcard"><div class="mlabel">response rate</div><div class="mval" id="d-rate" style="color:var(--purple)">—</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div class="card">
+            <div class="ch"><span class="ct">Grade distribution</span></div>
+            <canvas id="chart-grades" height="180"></canvas>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">Jobs by source</span></div>
+            <canvas id="chart-sources" height="180"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Recent evaluations</span><button class="btn btn-sm" onclick="loadDashboard()">Refresh</button></div>
+          <div id="dash-recent-evals"></div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Feedback &amp; learning</span><span class="hint" id="dash-feedback-hint"></span></div>
+          <div id="dash-feedback-log"></div>
+          <div style="margin-top:12px">
+            <div class="hint" style="margin-bottom:6px">Give feedback on last evaluation</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <button class="btn btn-xs" onclick="sendFeedback('score_too_high','Score was too high for this role')">Score too high</button>
+              <button class="btn btn-xs" onclick="sendFeedback('score_too_low','Score was too low for this role')">Score too low</button>
+              <button class="btn btn-xs" onclick="sendFeedback('wrong_archetype','Wrong archetype classification')">Wrong archetype</button>
+              <button class="btn btn-xs btn-t" onclick="sendFeedback('good_eval','Good evaluation, accurate score')">✓ Good eval</button>
+            </div>
+            <div style="display:flex;gap:7px;margin-top:8px">
+              <input class="inp" id="feedback-custom" placeholder="Custom feedback..." style="flex:1;font-size:12px">
+              <button class="btn btn-sm" onclick="sendCustomFeedback()">Send ↗</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PIPELINE PANEL ═══ -->
+      <div id="panel-pipeline" class="panel">
+        <div class="card">
+          <div class="ch">
+            <div>
+              <div class="ct">Job queue processor</div>
+              <div class="hint" style="margin-top:2px">Evaluates pending URLs in parallel — resumable, fault-tolerant</div>
+            </div>
+            <div style="display:flex;gap:7px">
+              <button class="btn btn-g" id="pipeline-start-btn" onclick="startPipeline()">Start pipeline →</button>
+              <button class="btn" id="pipeline-stop-btn" onclick="stopPipeline()" style="display:none">■ Stop</button>
+            </div>
+          </div>
+          <div id="pipeline-status-bar" style="background:var(--surface2);border-radius:6px;padding:10px 12px;display:flex;gap:20px;font-family:var(--mono);font-size:12px">
+            <span>Status: <span id="ps-status" style="color:var(--dim)">idle</span></span>
+            <span>Workers: <span id="ps-workers" style="color:var(--accent)">0</span></span>
+            <span>Processed: <span id="ps-processed" style="color:var(--teal)">0</span></span>
+            <span>Failed: <span id="ps-failed" style="color:var(--coral)">0</span></span>
+            <span>Pending: <span id="ps-pending" style="color:var(--amber)">0</span></span>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ch">
+              <span class="ct">Add URLs to queue</span>
+              <button class="btn btn-sm" onclick="addURLsToQueue()">Add →</button>
+            </div>
+            <textarea class="ta" id="queue-urls" style="min-height:100px" placeholder="Paste job URLs one per line:&#10;https://boards.greenhouse.io/...&#10;https://jobs.lever.co/...&#10;https://jobs.ashbyhq.com/..."></textarea>
+            <div style="margin-top:8px;display:flex;gap:7px">
+              <button class="btn btn-sm btn-g" onclick="scanAndQueue()">Scan portals + auto-queue ↗</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">Queue stats</span><button class="btn btn-xs" onclick="loadPipelineQueue()">Refresh</button></div>
+            <div id="pipeline-queue-stats"></div>
+            <div style="margin-top:10px;display:flex;gap:6px">
+              <button class="btn btn-xs" onclick="clearQueue('completed')">Clear completed</button>
+              <button class="btn btn-xs" style="color:var(--coral)" onclick="clearQueue('all')">Clear all</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Live activity log</span></div>
+          <div id="pipeline-log" style="font-family:var(--mono);font-size:11px;color:var(--dim);max-height:240px;overflow-y:auto;line-height:2"></div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Queue</span><span class="hint" id="queue-count-hint"></span></div>
+          <div id="pipeline-queue-list" style="max-height:300px;overflow-y:auto"></div>
+        </div>
+      </div>
+
+      <!-- ═══ SCHEDULER PANEL ═══ -->
+      <div id="panel-scheduler" class="panel">
+        <div class="card">
+          <div class="ch">
+            <div>
+              <div class="ct">Auto-scan scheduler</div>
+              <div class="hint" style="margin-top:2px">Set recurring scans — AutoApply finds new jobs while you sleep</div>
+            </div>
+            <button class="btn btn-g" onclick="showAddSchedule()">+ New schedule</button>
+          </div>
+          <div id="add-schedule-form" style="display:none;background:var(--surface2);border-radius:8px;padding:14px;margin-top:12px">
+            <div class="g2" style="margin-bottom:10px">
+              <div><div class="hint" style="margin-bottom:5px">Schedule name</div><input class="inp" id="sched-name" placeholder="e.g. Weekly ML scan" style="width:100%"></div>
+              <div><div class="hint" style="margin-bottom:5px">Interval (days)</div>
+                <select class="sel" id="sched-interval" style="width:100%">
+                  <option value="1">Every day</option>
+                  <option value="2">Every 2 days</option>
+                  <option value="3" selected>Every 3 days</option>
+                  <option value="7">Every week</option>
+                  <option value="14">Every 2 weeks</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-bottom:10px">
+              <div class="hint" style="margin-bottom:6px">Portal categories to scan</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <label style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" checked class="sched-cat" value="ai_labs"> AI Labs</label>
+                <label style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" checked class="sched-cat" value="llmops"> LLMOps</label>
+                <label style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" checked class="sched-cat" value="toronto_focused"> Toronto</label>
+                <label style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" class="sched-cat" value="data_ml"> Data/ML</label>
+                <label style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" class="sched-cat" value="dev_tools"> Dev Tools</label>
+              </div>
+            </div>
+            <div style="display:flex;gap:7px">
+              <button class="btn btn-g btn-sm" onclick="createSchedule()">Create schedule</button>
+              <button class="btn btn-sm" onclick="document.getElementById('add-schedule-form').style.display='none'">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div id="schedules-list"></div>
+        <div class="card">
+          <div class="ch"><span class="ct">Upcoming runs</span></div>
+          <div id="scheduler-next-runs" style="font-family:var(--mono);font-size:12px;color:var(--muted)"></div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Activity log</span></div>
+          <div id="scheduler-log" style="font-family:var(--mono);font-size:11px;color:var(--dim);line-height:2"></div>
+        </div>
+      </div>
+
+    <div id="panel-portals" class="panel">
+  <div class="card">
+    <div class="ch">
+      <div><div class="ct">Manage Portals</div><div class="hint" style="margin-top:3px">Add or remove company job boards. Changes persist in config/portals.yml and take effect on next scan.</div></div>
+      <button class="btn btn-g btn-sm" onclick="loadPortals()">Refresh ↺</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <input class="inp" id="portal-name" placeholder="Company name" style="flex:1;min-width:120px">
+      <input class="inp" id="portal-slug" placeholder="Board slug (e.g. anthropic)" style="flex:1;min-width:140px">
+      <select class="sel" id="portal-type">
+        <option value="greenhouse">Greenhouse</option>
+        <option value="lever">Lever</option>
+        <option value="ashby">Ashby</option>
+        <option value="workday">Workday</option>
+        <option value="smartrecruiters">SmartRecruiters</option>
+      </select>
+      <select class="sel" id="portal-category">
+        <option value="ai_labs">AI Labs</option>
+        <option value="llmops">LLMOps</option>
+        <option value="ai_platforms">AI Platforms</option>
+        <option value="toronto_focused">Toronto</option>
+        <option value="automation">Automation</option>
+        <option value="enterprise_ai">Enterprise AI</option>
+        <option value="dev_tools">Dev Tools</option>
+        <option value="workday_cos">Workday</option>
+      </select>
+      <button class="btn btn-g" onclick="addPortal()">Add portal +</button>
+    </div>
+    <div id="portals-list"><div class="hint">Loading portals...</div></div>
+  </div>
+</div>
+
+<!-- ═══ LIVENESS CHECKER PANEL ═══ -->
+<div id="panel-liveness" class="panel">
+  <div class="card">
+    <div class="ch">
+      <div><div class="ct">Job Liveness Checker</div><div class="hint" style="margin-top:3px">Verify if job postings are still active — mirrors check-liveness.mjs</div></div>
+      <button class="btn btn-g btn-sm" onclick="checkAllLiveness()">Check All Active ↺</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <input class="inp" id="liveness-url" placeholder="Paste a job URL to check..." style="flex:1">
+      <button class="btn btn-g" onclick="checkSingleLiveness()">Check URL →</button>
+    </div>
+    <div id="liveness-results"><div class="hint">Check a URL above, or click Check All Active to verify all open applications.</div></div>
+  </div>
+</div>
+<!-- ═══ FOLLOW-UPS PANEL ═══ -->
+<div id="panel-followups" class="panel">
+  <div class="card">
+    <div class="ch"><div><div class="ct">Follow-up Cadence</div><div class="hint" style="margin-top:3px">Smart follow-up schedule — mirrors followup-cadence.mjs</div></div><button class="btn btn-g btn-sm" onclick="loadFollowupSchedule()">Refresh ↺</button></div>
+    <div id="followup-due-section" style="margin-bottom:18px"></div>
+    <div id="followup-schedule-section"></div>
+  </div>
+  <div class="card" style="margin-top:13px">
+    <div class="ch"><span class="ct">Generate Follow-up Message</span></div>
+    <div class="g2" style="margin-bottom:12px">
+      <div><div class="hint" style="margin-bottom:5px">Company</div><input class="inp" id="fu-co" placeholder="e.g. Anthropic" style="width:100%"></div>
+      <div><div class="hint" style="margin-bottom:5px">Role</div><input class="inp" id="fu-role" placeholder="e.g. ML Engineer" style="width:100%"></div>
+      <div><div class="hint" style="margin-bottom:5px">Status</div><select class="sel" id="fu-status" style="width:100%"><option value="applied">Applied</option><option value="phone_screen">Phone Screen</option><option value="interview">Interview</option><option value="final_round">Final Round</option></select></div>
+      <div><div class="hint" style="margin-bottom:5px">Type</div><select class="sel" id="fu-action" style="width:100%"><option value="email">Email</option><option value="linkedin">LinkedIn</option><option value="final">Final Check-in</option></select></div>
+    </div>
+    <input class="inp" id="fu-contact" placeholder="Contact name (optional)" style="width:100%;margin-bottom:10px">
+    <button class="btn btn-g" onclick="generateFollowup()">Generate message →</button>
+    <div id="fu-loading" style="display:none;margin-top:12px"><div class="loadwrap"><div class="dots"><span></span><span></span><span></span></div><div class="loadmsg">Drafting...</div></div></div>
+    <div id="fu-result" style="display:none;margin-top:12px"><div class="ch"><span class="ct">Generated Message</span><button class="btn btn-sm" onclick="copyFollowup()">Copy</button></div><pre id="fu-content" style="font-size:12px;color:var(--muted);white-space:pre-wrap;line-height:1.7"></pre></div>
+  </div>
+</div>
+<!-- ═══ PATTERN ANALYSIS PANEL ═══ -->
+<div id="panel-patterns" class="panel">
+  <div class="card">
+    <div class="ch"><div><div class="ct">Rejection Pattern Analysis</div><div class="hint" style="margin-top:3px">AI analysis of why applications are not converting — mirrors analyze-patterns.mjs</div></div><button class="btn btn-g" onclick="runPatternAnalysis()">Analyze patterns →</button></div>
+    <div id="patterns-stats" style="margin:14px 0"></div>
+  </div>
+  <div id="patterns-loading" style="display:none"><div class="card"><div class="loadwrap"><div class="dots"><span></span><span></span><span></span></div><div class="loadmsg" id="patterns-load-msg">Reading tracker data...</div></div></div></div>
+  <div id="patterns-result" style="display:none"><div class="card"><div class="ch"><span class="ct">Pattern Report</span><button class="btn btn-sm" onclick="copyPatterns()">Copy</button></div><div id="patterns-content" style="font-size:13px;color:var(--muted);line-height:1.75"></div></div></div>
+</div>
+<!-- ═══ LATEX CV PANEL ═══ -->
+<div id="panel-latexcv" class="panel">
+  <div class="card">
+    <div class="ch"><div><div class="ct">LaTeX / Overleaf CV Generator</div><div class="hint" style="margin-top:3px">Generate a .tex file for pdflatex or Overleaf — mirrors generate-latex.mjs</div></div></div>
+    <div style="margin-bottom:14px"><div class="hint" style="margin-bottom:6px">Job description (optional — tailors the CV)</div><textarea class="ta" id="latex-jd" placeholder="Paste JD to tailor CV, or leave blank..." style="min-height:100px"></textarea></div>
+    <button class="btn btn-g" onclick="generateLatex()">Generate LaTeX CV →</button>
+    <div style="margin-top:10px;font-size:12px;color:var(--dim)">Compile with <code style="color:var(--teal)">pdflatex cv.tex</code> locally or upload to <a href="https://overleaf.com" target="_blank" style="color:var(--accent)">overleaf.com</a></div>
+  </div>
+  <div id="latex-loading" style="display:none"><div class="card"><div class="loadwrap"><div class="dots"><span></span><span></span><span></span></div><div class="loadmsg">Generating LaTeX CV...</div></div></div></div>
+  <div id="latex-result" style="display:none"><div class="card"><div class="ch"><span class="ct">LaTeX CV Ready</span></div><div id="latex-instructions" style="margin-bottom:12px"></div><pre style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:11px;color:var(--muted);max-height:280px;overflow-y:auto;white-space:pre-wrap" id="latex-preview"></pre><div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-g" id="latex-download-btn">Download .tex ↓</button><a href="https://overleaf.com" target="_blank" class="btn">Open Overleaf ↗</a></div></div></div>
+</div>
+
+      <div id="panel-training" class="panel"><div class="card"><div class="ch"><div><div class="ct">Cert / Course Evaluator</div><div class="hint" style="margin-top:3px">Is this certification worth your time and money?</div></div></div><div class="g2" style="margin-bottom:12px"><div><div class="hint" style="margin-bottom:6px">Certification name</div><input class="inp" id="train-cert" placeholder="e.g. AWS ML Specialty" style="width:100%"></div><div><div class="hint" style="margin-bottom:6px">Provider</div><input class="inp" id="train-provider" placeholder="e.g. Amazon, Coursera" style="width:100%"></div><div><div class="hint" style="margin-bottom:6px">Cost (USD)</div><input class="inp" id="train-cost" placeholder="e.g. $300" style="width:100%"></div><div><div class="hint" style="margin-bottom:6px">Time to complete (weeks)</div><input class="inp" id="train-time" placeholder="e.g. 8" style="width:100%" type="number"></div></div><div style="margin-bottom:12px"><div class="hint" style="margin-bottom:6px">Why are you considering this?</div><textarea class="ta" id="train-reason" placeholder="e.g. It keeps appearing in ML Engineer JDs I want to apply to..."></textarea></div><button class="btn btn-g" onclick="runTrainingEval()">Evaluate certification →</button></div><div id="train-loading" style="display:none"><div class="card"><div class="loadwrap"><div class="dots"><span></span><span></span><span></span></div><div class="loadmsg">Evaluating ROI...</div></div></div></div><div id="train-result" style="display:none"><div class="card"><div class="ch"><span class="ct">Evaluation result</span></div><div id="train-content" style="font-size:13px;color:var(--muted);line-height:1.75"></div></div></div></div>
+<div id="panel-project" class="panel"><div class="card"><div class="ch"><div><div class="ct">Portfolio Project Evaluator</div><div class="hint" style="margin-top:3px">Is this project worth building for your job search?</div></div></div><div style="margin-bottom:12px"><div class="hint" style="margin-bottom:6px">Project idea</div><textarea class="jdinput" id="proj-idea" style="min-height:90px" placeholder="e.g. A real-time LLM evaluation dashboard that monitors hallucination rates and latency across model versions..."></textarea></div><div class="g2" style="margin-bottom:12px"><div><div class="hint" style="margin-bottom:6px">Proposed tech stack</div><input class="inp" id="proj-stack" placeholder="e.g. Python, FastAPI, LangChain, React" style="width:100%"></div><div><div class="hint" style="margin-bottom:6px">Estimated time (weeks)</div><input class="inp" id="proj-time" placeholder="e.g. 4" type="number" style="width:100%"></div></div><div style="margin-bottom:12px"><div class="hint" style="margin-bottom:6px">Primary goal</div><select class="sel" id="proj-goal" style="width:100%"><option value="portfolio">Portfolio showcase</option><option value="job_search">Get interviews at AI labs</option><option value="skill_building">Learn new skills</option><option value="open_source">Open source contribution</option></select></div><button class="btn btn-g" onclick="runProjectEval()">Evaluate project →</button></div><div id="proj-loading" style="display:none"><div class="card"><div class="loadwrap"><div class="dots"><span></span><span></span><span></span></div><div class="loadmsg">Evaluating project signal...</div></div></div></div><div id="proj-result" style="display:none"><div class="card"><div class="ch"><span class="ct">Evaluation result</span></div><div id="proj-content" style="font-size:13px;color:var(--muted);line-height:1.75"></div></div></div></div>
+</div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- MODAL -->
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title" id="modal-title">Report</span>
+      <button class="close-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-sm" onclick="copyModal()">Copy</button>
+      <button class="btn btn-sm" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="/app-part1.js"></script>
+<script src="/app-part2.js"></script>
+<script src="/app-part3.js"></script>
+<script src="/app-part4.js"></script>
+<script src="/app-part5.js"></script>
+<script src="/app-part6.js"></script>
+</body>
+</html>
