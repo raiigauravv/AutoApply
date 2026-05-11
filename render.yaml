@@ -2,14 +2,10 @@ services:
   - type: web
     name: autoapply-cmd-center
     env: docker
-    plan: starter
+    plan: free
     healthCheckPath: /
     envVars:
       - key: PORT
         value: 3773
       - key: ANTHROPIC_API_KEY
         sync: false
-    disk:
-      name: autoapply-data
-      mountPath: /app/data
-      sizeGB: 1
