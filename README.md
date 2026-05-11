@@ -1,73 +1,125 @@
-# AutoApply Web App
+# AutoApply
 
-Full web UI version of santifer/autoapply — all 14 modes, portal scanner, PDF generation, batch eval, tracker, and more.
+AutoApply is a highly-automated, open-source AI job search command center. It evaluates job descriptions, manages a background portal scanner, generates tailored LaTeX resumes, drafts outreach emails, and tracks your application pipeline automatically.
 
-## Quick Start
-
-```bash
-# 1. Install dependencies
-npm install
-
-# 2. Install Playwright (for portal scanning)
-npx playwright install chromium
-
-# 3. Set your Anthropic API key
-cp .env.example .env
-# Edit .env and add your key
-
-# 4. Start the app
-npm start
-
-# Open http://localhost:3773
-```
-
-## Add your CV
-
-Drop your CV as `cv.md` in the project root — or edit it directly in the Profile tab.
+It was heavily inspired by the CLI tool `career-ops`, but entirely reimagined into a sleek, modern WebUI dashboard tailored for the modern tech job market.
 
 ## Features
 
-| Feature | Status |
-|---|---|
-| JD Evaluation (A–F, 10 dimensions) | ✅ Full |
-| Portal Scanner (45+ companies, Greenhouse + Lever) | ✅ Full |
-| Batch Evaluation (up to 20 JDs parallel) | ✅ Full |
-| Application Tracker (dedup, status, notes) | ✅ Full |
-| PDF Resume Generation (Puppeteer) | ✅ Full |
-| Cold Outreach Generator | ✅ Full |
-| Company Deep Research | ✅ Full |
-| STAR Story Bank | ✅ Full |
-| Salary Negotiation Scripts | ✅ Full |
-| Follow-up Cadence | ✅ Full |
-| Full Report (8 blocks like santifer) | ✅ Full |
-| Profile + CV editor (live) | ✅ Full |
+- **JD Evaluation:** Paste a job link or description. Get a 10-dimension match score, an A-F grade, and a go/no-go recommendation based on your specific CV.
+- **Background Portal Scanner:** Recursively scrapes Lever, Greenhouse, Workday, and Ashby portals to detect new jobs.
+- **Dynamic LaTeX CVs:** Dynamically curates bullets from your Master CV and outputs ATS-safe LaTeX templates.
+- **Smart Follow-Up Cadence:** Recommends exact business days to follow-up on "ghosted" applications and generates the emails.
+- **Interview & Outreach Prep:** Automatically writes personalized 7-word-subject cold emails and extracts STAR method behavioral questions based on the company's core values.
+- **Rejection Analysis Engine:** Analyzes your failed applications to identify funnel bottlenecks and suggests strategic pivots.
+- **Local & Private:** Everything runs on your machine. Your tracking data stays in local files.
 
 ## Architecture
 
-```
-autoapply-app/
-├── server.js          — Express server
-├── claude.js          — Anthropic API wrapper
-├── profile.js         — CV + profile loader
-├── routes/
-│   ├── evaluate.js    — JD evaluation + report generation
-│   ├── pdf.js         — Tailored resume PDF generation
-│   ├── scan.js        — Portal scanner (Greenhouse + Lever APIs)
-│   ├── batch.js       — Parallel batch evaluation
-│   ├── tracker.js     — Application tracker (JSON persistence)
-│   ├── research.js    — Company research, outreach, STAR stories, negotiation
-│   └── profile.js     — CV/profile read/write
-├── public/
-│   └── index.html     — Full SPA frontend
-├── cv.md              — Your CV (create this)
-├── config/
-│   └── profile.yml    — Your profile + scoring weights
-├── data/              — Tracker + batch results (gitignored)
-├── output/            — Generated PDFs (gitignored)
-└── reports/           — Eval reports (gitignored)
+AutoApply uses a lightweight client-server model designed to run locally.
+
+```mermaid
+graph TD
+    subgraph Frontend (Vanilla JS / CSS)
+        UI[Web UI Command Center]
+        Dashboard[Pipeline Dashboard]
+        Landing[Landing Page]
+    end
+
+    subgraph Backend (Express Node.js)
+        API[Express Router]
+        LLM[LLM Engine]
+        Crawler[Portal Scanner]
+        Batch[Batch Evaluator]
+        State[State Manager]
+    end
+
+    subgraph Data Layer (Local JSON/YAML)
+        Tracker[(tracker.json)]
+        Config[(config.yml / profile.yml)]
+        Reports[(eval_reports/)]
+    end
+
+    subgraph External Services
+        Anthropic((Anthropic API))
+        JobBoards((Job Boards))
+    end
+
+    UI -->|API Requests| API
+    Dashboard -->|Reads Pipeline Data| API
+    API --> LLM
+    API --> Crawler
+    API --> State
+    
+    LLM <--> Anthropic
+    Crawler <--> JobBoards
+    
+    State <--> Tracker
+    State <--> Config
+    LLM --> Reports
 ```
 
-## API Key
+## Tech Stack
 
-Get one at https://console.anthropic.com/
-Set in `.env` as `ANTHROPIC_API_KEY=sk-ant-...`
+- **Frontend:** Vanilla HTML, CSS (Custom Glassmorphism Design System), JavaScript
+- **Backend:** Node.js, Express.js
+- **AI Integration:** Anthropic API (Claude 3.5 Sonnet used for advanced JSON structured data extraction)
+- **Data Persistence:** JSON and YAML files (No heavy database required, simple and trackable via Git)
+- **Scraping:** Puppeteer / Cheerio (for fetching job descriptions and finding active portals)
+
+## Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/raiigauravv/AutoApply.git
+   cd AutoApply
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure your API keys:**
+   Copy the example environment file and insert your API key.
+   ```bash
+   cp .env.example .env
+   # Open .env and add ANTHROPIC_API_KEY=your_key_here
+   ```
+
+4. **Start the Command Center:**
+   ```bash
+   npm run dev
+   # Or just run: node server.js
+   ```
+
+5. **Open the App:**
+   Navigate to `http://localhost:3773` in your browser. From there, set up your profile, upload your Master CV, and start evaluating JDs.
+
+## Project Structure
+
+```text
+autoapply/
+├── public/                 # Static assets, Landing page, Dashboard UI, CSS
+├── routes/                 # Express API routes
+│   ├── apply.js            # Automated application answering
+│   ├── evaluate.js         # Core JD Evaluation logic
+│   ├── followup.js         # Follow-up cadence calculation
+│   ├── latex.js            # LaTeX CV Generator
+│   ├── liveness.js         # Job liveness status checks
+│   ├── patterns.js         # Rejection pattern analyzer
+│   ├── scan.js             # Portal scanner
+│   └── tracker.js          # Pipeline persistence logic
+├── config/                 # User settings, scoring weights, portals list
+├── data/                   # The local "database" (tracker.json, etc.)
+├── output/                 # Generated .tex and PDF resumes
+├── reports/                # Saved JSON evaluation reports
+├── server.js               # Express application entrypoint
+└── claude.js               # LLM integration library
+```
+
+## Contribution
+AutoApply is completely open-source. Feel free to submit pull requests for new portal scrapers, different LLM providers (e.g. OpenAI/Ollama), or new UI features.
+
+## License
+MIT License.
