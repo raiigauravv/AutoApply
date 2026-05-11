@@ -20,13 +20,13 @@ AutoApply uses a lightweight client-server model designed to run locally.
 
 ```mermaid
 graph TD
-    subgraph Frontend (Vanilla JS / CSS)
+    subgraph Frontend ["Vanilla JS / CSS"]
         UI[Web UI Command Center]
         Dashboard[Pipeline Dashboard]
         Landing[Landing Page]
     end
 
-    subgraph Backend (Express Node.js)
+    subgraph Backend ["Express Node.js"]
         API[Express Router]
         LLM[LLM Engine]
         Crawler[Portal Scanner]
@@ -34,13 +34,13 @@ graph TD
         State[State Manager]
     end
 
-    subgraph Data Layer (Local JSON/YAML)
+    subgraph DataLayer ["Local JSON/YAML"]
         Tracker[(tracker.json)]
         Config[(config.yml / profile.yml)]
         Reports[(eval_reports/)]
     end
 
-    subgraph External Services
+    subgraph ExternalServices ["External Services"]
         Anthropic((Anthropic API))
         JobBoards((Job Boards))
     end
